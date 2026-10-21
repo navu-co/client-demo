@@ -1,0 +1,164 @@
+ @layer nui-messages {
+   .nui-messages {
+     display: flex;
+     flex-direction: column;
+     container-type: inline-size;
+   }
+
+   .nui-messages>*+* {
+     margin-block-start: var(--nui-messages-gap, calc(var(--nui-ai-message-spinner-size, 22px) + 2 * var(--nui-ai-message-spinner-gap, 8px)));
+   }
+
+   .nui-messages>.nui-grouped {
+     margin-block-start: var(--nui-messages-grouped-gap, 6px);
+   }
+ }
+
+ @layer nui-prerender {
+   :where(nui-user-message, nui-agent-message, nui-ai-message):not(:defined) {
+     --_nui-message-column-padding: 36px;
+   }
+
+   @media (max-width: 600px) {
+     :where(nui-user-message, nui-agent-message, nui-ai-message):not(:defined) {
+       --_nui-message-column-padding: 24px;
+     }
+   }
+
+   :where(nui-user-message, nui-agent-message):not(:defined) {
+     display: block;
+     box-sizing: border-box;
+     width: fit-content;
+     max-width: min(var(--nui-chat-bubble-max-width, calc(0.7 * min(100% - 2 * var(--nui-message-column-padding, var(--_nui-message-column-padding)), var(--nui-message-column-max-width, 760px)))),
+         min(100% - 2 * var(--nui-message-column-padding, var(--_nui-message-column-padding)), var(--nui-message-column-max-width, 760px)));
+     padding: var(--nui-chat-bubble-padding, 12px 16px);
+   }
+
+   :where(nui-user-message):not(:defined) {
+     margin-inline-start: auto;
+     margin-inline-end: max(var(--nui-message-column-padding, var(--_nui-message-column-padding)), (100% - var(--nui-message-column-max-width, 760px)) / 2);
+   }
+
+   /* At the start of the column. A percentage --nui-chat-bubble-max-width is of the line here, and
+      of the column in the component, so set a length to have it exact */
+   :where(nui-agent-message):not(:defined) {
+     margin-inline-start: max(var(--nui-message-column-padding, var(--_nui-message-column-padding)), (100% - var(--nui-message-column-max-width, 760px)) / 2);
+   }
+
+   /* No bubble: the content across the column, its margins kept inside, as in the component */
+   :where(nui-ai-message):not(:defined) {
+     display: flow-root;
+     padding-inline: max(var(--nui-message-column-padding, var(--_nui-message-column-padding)), (100% - var(--nui-message-column-max-width, 760px)) / 2);
+   }
+
+   /* Content that leaves the column, to its minimum padding or to the line's edges. Its line's
+      width (100cqi) is that of the size container around it: give the messages' div the class
+      nui-messages, or it's the screen's */
+   :where(nui-ai-message):not(:defined)>.nui-wide {
+     margin-inline: calc(var(--nui-message-column-padding, var(--_nui-message-column-padding)) - max(var(--nui-message-column-padding, var(--_nui-message-column-padding)), (100cqi - var(--nui-message-column-max-width, 760px)) / 2));
+   }
+
+   :where(nui-ai-message):not(:defined)>.nui-full-bleed {
+     margin-inline: calc(-1 * max(var(--nui-message-column-padding, var(--_nui-message-column-padding)), (100cqi - var(--nui-message-column-max-width, 760px)) / 2));
+   }
+
+   /* The content's first and last elements lose their outer margins (in a bubble, its padding is
+      the space around the content) */
+   :where(nui-user-message, nui-agent-message, nui-ai-message):not(:defined)> :first-child {
+     margin-block-start: 0;
+   }
+
+   :where(nui-user-message, nui-agent-message, nui-ai-message):not(:defined)> :last-child {
+     margin-block-end: 0;
+   }
+ }
+
+ /* The text: body large, and body medium on screens 600px wide or narrower */
+ :where(nui-user-message, nui-agent-message, nui-ai-message):not(:defined) {
+   text-wrap: pretty;
+ }
+
+ :where(nui-user-message, nui-agent-message):not(:defined) {
+   overflow-wrap: anywhere;
+ }
+
+ nui-agent-message:not(:defined) {
+   font-family: var(--nui-agent-message-font-family, var(--nui-sys-typeface, inherit));
+   font-size: var(--nui-agent-message-font-size, var(--nui-sys-type-body-large-size, calc(16px * var(--nui-sys-font-scale, 1))));
+   font-weight: var(--nui-agent-message-font-weight, var(--nui-sys-type-body-medium-weight, 400));
+   font-style: var(--nui-agent-message-font-style, normal);
+   line-height: var(--nui-agent-message-line-height, calc(20 / 14));
+ }
+
+ nui-user-message:not(:defined) {
+   font-family: var(--nui-user-message-font-family, var(--nui-sys-typeface, inherit));
+   font-size: var(--nui-user-message-font-size, var(--nui-sys-type-body-large-size, calc(16px * var(--nui-sys-font-scale, 1))));
+   font-weight: var(--nui-user-message-font-weight, var(--nui-sys-type-body-medium-weight, 400));
+   font-style: var(--nui-user-message-font-style, normal);
+   line-height: var(--nui-user-message-line-height, calc(20 / 14));
+ }
+
+ nui-ai-message:not(:defined) {
+   font-family: var(--nui-ai-message-font-family, var(--nui-sys-typeface, inherit));
+   font-size: var(--nui-ai-message-font-size, var(--nui-sys-type-body-large-size, calc(16px * var(--nui-sys-font-scale, 1))));
+   font-weight: var(--nui-ai-message-font-weight, var(--nui-sys-type-body-medium-weight, 400));
+   font-style: var(--nui-ai-message-font-style, normal);
+   line-height: var(--nui-ai-message-line-height, calc(20 / 14));
+ }
+
+ @media (max-width: 600px) {
+   nui-agent-message:not(:defined) {
+     font-size: var(--nui-agent-message-font-size, var(--nui-sys-type-body-medium-size, calc(14px * var(--nui-sys-font-scale, 1))));
+   }
+
+   nui-user-message:not(:defined) {
+     font-size: var(--nui-user-message-font-size, var(--nui-sys-type-body-medium-size, calc(14px * var(--nui-sys-font-scale, 1))));
+   }
+
+   nui-ai-message:not(:defined) {
+     font-size: var(--nui-ai-message-font-size, var(--nui-sys-type-body-medium-size, calc(14px * var(--nui-sys-font-scale, 1))));
+   }
+ }
+
+ @layer nui-prerender {
+
+   /* The menu: its 40px icon button. The drawer opens over the page, taking no room in it */
+   nui-fd-menu:not(:defined) {
+     display: inline-flex;
+     vertical-align: top;
+     width: 40px;
+     height: 40px;
+   }
+
+   /* Its destinations, headline and footer go into the drawer: until then, they're kept out of the page */
+   nui-fd-menu:not(:defined)>* {
+     display: none;
+   }
+
+   /* The identity: 100px by 40px, signed in or not (the button fills it; the avatar is 40px) */
+   nui-fd-identity:not(:defined) {
+     display: inline-flex;
+     vertical-align: middle;
+     width: 100px;
+     height: 40px;
+   }
+ }
+
+ /* Hamilton's brand for the Navu components: its navy, with its green for the call to action, and
+   its typeface. Tokens only; see Docs/theming.md. */
+ :root {
+   --nui-sys-color-primary: #00f091;
+   --nui-sys-color-tertiary: #1c2d57;
+   --nui-sys-color-surface: #ffffff;
+   --nui-user-message-content-color: #000;
+   --nui-ai-message-link-color: #00727a;
+   --nui-sys-typeface: Outfit, -apple-system, sans-serif;
+ }
+
+ nui-fd-menu {
+   --nui-icon-button-plain-icon-color: #fff;
+ }
+
+ nui-fd-signin-dialog {
+   --nui-sys-color-primary: #1c2d57;
+ }
