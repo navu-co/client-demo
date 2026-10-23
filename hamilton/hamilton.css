@@ -153,6 +153,8 @@
    --nui-user-message-content-color: #000;
    --nui-ai-message-link-color: #00727a;
    --nui-sys-typeface: Outfit, -apple-system, sans-serif;
+   --nui-button-tonal-label-color: #00727a;
+   --nui-button-text-label-color: #00727a;
  }
 
  nui-fd-menu {
