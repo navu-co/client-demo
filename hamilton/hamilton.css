@@ -159,6 +159,7 @@
    --nui-icon-button-plain-icon-color: #fff;
  }
 
+ nui-fd-privacy-dialog,
  nui-fd-signin-dialog {
    --nui-sys-color-primary: #1c2d57;
  }
