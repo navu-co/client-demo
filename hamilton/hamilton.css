@@ -161,6 +161,10 @@ nui-fd-menu {
   --nui-icon-button-plain-icon-color: #fff;
 }
 
+nui-fd-app-panel {
+  --nui-sys-color-primary: #00727a;
+}
+
 *::part(dialog) {
   --nui-sys-color-primary: #1c2d57;
 }
